@@ -1,0 +1,451 @@
+use panaderiaDB;
+
+db.createCollection("productos");
+db.createCollection("pedidos");
+db.createCollection("empleados");
+
+db.productos.insertMany([
+  {
+    nombre: "Pan de trigo integral",
+    tipo: "pan",
+    descripcion: "Pan integral hecho con harina de trigo 100% natural",
+    precio: 2.50,
+    costo: 1.20,
+    stock: 50,
+    cantidad_minima: 10,
+    ingredientes: ["harina integral", "agua", "levadura", "sal", "mantequilla"],
+    tiempo_preparacion_minutos: 120,
+    calorias: 265,
+    proveedores: [
+      {
+        nombre: "Harinera Central",
+        tipo_ingrediente: "harina",
+        telefono: "3001234567"
+      }
+    ],
+  },
+  {
+    nombre: "Pastel de chocolate",
+    tipo: "pastel",
+    descripcion: "Pastel de chocolate oscuro con decoración de virutas",
+    precio: 15.00,
+    costo: 6.00,
+    stock: 10,
+    cantidad_minima: 3,
+    ingredientes: ["harina", "chocolate", "huevo", "leche", "mantequilla", "azúcar"],
+    tiempo_preparacion_minutos: 180,
+    calorias: 450,
+    proveedores: [
+      {
+        nombre: "Chocolates Premium",
+        tipo_ingrediente: "chocolate",
+        telefono: "3009876543"
+      }
+    ],
+  },
+  {
+    nombre: "Donas de vainilla",
+    tipo: "dona",
+    descripcion: "Donas esponjosas con sabor a vainilla y cubierta de azúcar",
+    precio: 1.50,
+    costo: 0.70,
+    stock: 100,
+    cantidad_minima: 20,
+    ingredientes: ["harina", "vainilla", "azúcar", "aceite", "huevo"],
+    tiempo_preparacion_minutos: 90,
+    calorias: 280,
+    proveedores: [
+      {
+        nombre: "Distribuidora Sur",
+        tipo_ingrediente: "vainilla",
+        telefono: "3001111111"
+      }
+    ],
+  },
+  {
+    nombre: "Galletas de avena",
+    tipo: "galleta",
+    descripcion: "Galletas crujientes con avena y pasas",
+    precio: 3.00,
+    costo: 1.30,
+    stock: 75,
+    cantidad_minima: 15,
+    ingredientes: ["avena", "harina", "mantequilla", "azúcar", "pasas"],
+    tiempo_preparacion_minutos: 60,
+    calorias: 180,
+    proveedores: [
+      {
+        nombre: "Granos y Cereales",
+        tipo_ingrediente: "avena",
+        telefono: "3002222222"
+      }
+    ],
+  },
+  {
+    nombre: "Pan de queso",
+    tipo: "pan",
+    descripcion: "Pan esponjoso con queso derretido adentro",
+    precio: 3.50,
+    costo: 1.80,
+    stock: 8,
+    cantidad_minima: 5,
+    ingredientes: ["harina", "levadura", "queso", "agua", "sal"],
+    tiempo_preparacion_minutos: 100,
+    calorias: 320,
+    proveedores: [
+      {
+        nombre: "Quesería Los Andes",
+        tipo_ingrediente: "queso",
+        telefono: "3003333333"
+      }
+    ],
+  }
+])
+
+db.pedidos.insertMany([
+  {
+    numero_pedido: "PED-2025-001",
+    fecha_pedido: ISODate("2025-12-08T10:30:00Z"),
+    fecha_entrega: ISODate("2025-12-08T14:00:00Z"),
+    cliente: {
+      nombre: "Juan García López",
+      email: "juan@email.com",
+      telefono: "3001234567",
+      direccion: "Calle 10 #20-30, Bogotá"
+    },
+    items: [
+      {
+        producto_nombre: "Pan de trigo integral",
+        cantidad: 5,
+        precio_unitario: 2.50,
+        subtotal: 12.50
+      },
+      {
+        producto_nombre: "Donas de vainilla",
+        cantidad: 10,
+        precio_unitario: 1.50,
+        subtotal: 15.00
+      }
+    ],
+    total: 27.50,
+    descuento: 0,
+    total_final: 27.50,
+    estado: "completado",
+    metodo_pago: "efectivo",
+    notas: "Entregar en el local principal",
+    empleado_asignado: "María López",
+    historial_estado: [
+      {
+        estado: "pendiente",
+        fecha: ISODate("2025-12-08T10:30:00Z")
+      },
+      {
+        estado: "en_preparacion",
+        fecha: ISODate("2025-12-08T10:35:00Z")
+      },
+      {
+        estado: "completado",
+        fecha: ISODate("2025-12-08T14:00:00Z")
+      }
+    ]
+  },
+  {
+    numero_pedido: "PED-2025-002",
+    fecha_pedido: ISODate("2025-12-08T11:15:00Z"),
+    fecha_entrega: ISODate("2025-12-08T15:30:00Z"),
+    cliente: {
+      nombre: "Ana Rodríguez Martínez",
+      email: "ana@example.com",
+      telefono: "3009876543",
+      direccion: "Carrera 5 #15-45, Bogotá"
+    },
+    items: [
+      {
+        producto_nombre: "Pastel de chocolate",
+        cantidad: 2,
+        precio_unitario: 15.00,
+        subtotal: 30.00
+      },
+      {
+        producto_nombre: "Galletas de avena",
+        cantidad: 3,
+        precio_unitario: 3.00,
+        subtotal: 9.00
+      }
+    ],
+    total: 39.00,
+    descuento: 2.00,
+    total_final: 37.00,
+    estado: "completado",
+    metodo_pago: "tarjeta",
+    notas: "Evento empresarial",
+    empleado_asignado: "Carlos Mendez",
+    historial_estado: [
+      {
+        estado: "pendiente",
+        fecha: ISODate("2025-12-08T11:15:00Z")
+      },
+      {
+        estado: "en_preparacion",
+        fecha: ISODate("2025-12-08T11:20:00Z")
+      },
+      {
+        estado: "completado",
+        fecha: ISODate("2025-12-08T15:30:00Z")
+      }
+    ]
+  },
+  {
+    numero_pedido: "PED-2025-003",
+    fecha_pedido: ISODate("2025-12-09T09:00:00Z"),
+    fecha_entrega: ISODate("2025-12-09T18:00:00Z"),
+    cliente: {
+      nombre: "Restaurante Casa Blanca",
+      email: "casablanca@rest.com",
+      telefono: "3005555555",
+      direccion: "Avenida Paseo Colón #25, Bogotá"
+    },
+    items: [
+      {
+        producto_nombre: "Pan de trigo integral",
+        cantidad: 50,
+        precio_unitario: 2.50,
+        subtotal: 125.00
+      },
+      {
+        producto_nombre: "Pan de queso",
+        cantidad: 30,
+        precio_unitario: 3.50,
+        subtotal: 105.00
+      }
+    ],
+    total: 230.00,
+    descuento: 15.00,
+    total_final: 215.00,
+    estado: "en_preparacion",
+    metodo_pago: "transferencia",
+    notas: "Entrega diaria, cliente mayorista",
+    empleado_asignado: "María López",
+    historial_estado: [
+      {
+        estado: "pendiente",
+        fecha: ISODate("2025-12-09T09:00:00Z")
+      },
+      {
+        estado: "en_preparacion",
+        fecha: ISODate("2025-12-09T09:15:00Z")
+      }
+    ]
+  },
+  {
+    numero_pedido: "PED-2025-004",
+    fecha_pedido: ISODate("2025-12-09T13:30:00Z"),
+    fecha_entrega: ISODate("2025-12-09T19:00:00Z"),
+    cliente: {
+      nombre: "Laura Gómez",
+      email: "laura.gomez@mail.com",
+      telefono: "3007777777",
+      direccion: "Calle 50 #8-50, Bogotá"
+    },
+    items: [
+      {
+        producto_nombre: "Donas de vainilla",
+        cantidad: 20,
+        precio_unitario: 1.50,
+        subtotal: 30.00
+      },
+      {
+        producto_nombre: "Galletas de avena",
+        cantidad: 5,
+        precio_unitario: 3.00,
+        subtotal: 15.00
+      }
+    ],
+    total: 45.00,
+    descuento: 0,
+    total_final: 45.00,
+    estado: "pendiente",
+    metodo_pago: "efectivo",
+    notas: "Pagar a la entrega",
+    empleado_asignado: null,
+    historial_estado: [
+      {
+        estado: "pendiente",
+        fecha: ISODate("2025-12-09T13:30:00Z")
+      }
+    ]
+  }
+])
+
+db.empleados.insertMany([
+  {
+    nombre: "María López Rodríguez",
+    cargo: "Panadero",
+    email: "maria@panaderia.com",
+    telefono: "3009876543",
+    salario_mensual: 1200000,
+    fecha_inicio: ISODate("2024-06-01T00:00:00Z"),
+    fecha_fin: null,
+    turnos_asignados: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
+    especialidades: ["panes", "pasteles", "fermentacion"],
+    activo: true,
+    historial_produccion: [
+      {
+        fecha: ISODate("2025-12-08T06:00:00Z"),
+        producto: "Pan integral",
+        cantidad_producida: 100,
+        tiempo_horas: 4,
+        calidad: "excelente"
+      },
+      {
+        fecha: ISODate("2025-12-08T10:00:00Z"),
+        producto: "Pasteles de chocolate",
+        cantidad_producida: 25,
+        tiempo_horas: 3,
+        calidad: "buena"
+      },
+      {
+        fecha: ISODate("2025-12-09T06:00:00Z"),
+        producto: "Pan de queso",
+        cantidad_producida: 80,
+        tiempo_horas: 3.5,
+        calidad: "excelente"
+      }
+    ],
+    documentos: [
+      {
+        tipo: "cedula",
+        numero: "1024567890",
+        fecha_vencimiento: ISODate("2030-06-01T00:00:00Z")
+      }
+    ],
+    capacitaciones: [
+      {
+        nombre: "Manejo de horno industrial",
+        fecha: ISODate("2024-07-15T00:00:00Z"),
+        certificado: true
+      },
+      {
+        nombre: "Fermentación artesanal",
+        fecha: ISODate("2024-09-20T00:00:00Z"),
+        certificado: true
+      }
+    ]
+  },
+  {
+    nombre: "Carlos Mendez González",
+    cargo: "Pastelero",
+    email: "carlos@panaderia.com",
+    telefono: "3001111111",
+    salario_mensual: 1150000,
+    fecha_inicio: ISODate("2024-08-15T00:00:00Z"),
+    fecha_fin: null,
+    turnos_asignados: ["Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    especialidades: ["pasteles", "decoracion", "reposteria"],
+    activo: true,
+    historial_produccion: [
+      {
+        fecha: ISODate("2025-12-08T08:00:00Z"),
+        producto: "Pastel de chocolate",
+        cantidad_producida: 30,
+        tiempo_horas: 4,
+        calidad: "excelente"
+      },
+      {
+        fecha: ISODate("2025-12-09T08:00:00Z"),
+        producto: "Pastel de chocolate",
+        cantidad_producida: 28,
+        tiempo_horas: 4,
+        calidad: "buena"
+      }
+    ],
+    documentos: [
+      {
+        tipo: "cedula",
+        numero: "1089765432",
+        fecha_vencimiento: ISODate("2031-03-15T00:00:00Z")
+      }
+    ],
+    capacitaciones: [
+      {
+        nombre: "Decoración con fondant",
+        fecha: ISODate("2024-10-10T00:00:00Z"),
+        certificado: true
+      }
+    ]
+  },
+  {
+    nombre: "José Antonio Pérez",
+    cargo: "Vendedor",
+    email: "jose@panaderia.com",
+    telefono: "3002222222",
+    salario_mensual: 900000,
+    fecha_inicio: ISODate("2024-11-01T00:00:00Z"),
+    fecha_fin: null,
+    turnos_asignados: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    especialidades: ["ventas", "atencion_cliente", "caja"],
+    activo: true,
+    historial_produccion: [],
+    documentos: [
+      {
+        tipo: "cedula",
+        numero: "1065432109",
+        fecha_vencimiento: ISODate("2029-12-20T00:00:00Z")
+      }
+    ],
+    capacitaciones: [
+      {
+        nombre: "Atención al cliente",
+        fecha: ISODate("2024-11-10T00:00:00Z"),
+        certificado: true
+      }
+    ]
+  },
+  {
+    nombre: "Sofia Ramirez Torres",
+    cargo: "Panadero",
+    email: "sofia@panaderia.com",
+    telefono: "3003333333",
+    salario_mensual: 1200000,
+    fecha_inicio: ISODate("2023-03-10T00:00:00Z"),
+    fecha_fin: null,
+    turnos_asignados: ["Lunes", "Miércoles", "Viernes", "Sábado", "Domingo"],
+    especialidades: ["panes", "masas", "bolleria"],
+    activo: true,
+    historial_produccion: [
+      {
+        fecha: ISODate("2025-12-08T05:00:00Z"),
+        producto: "Pan de trigo integral",
+        cantidad_producida: 120,
+        tiempo_horas: 4.5,
+        calidad: "excelente"
+      },
+      {
+        fecha: ISODate("2025-12-09T05:00:00Z"),
+        producto: "Donas de vainilla",
+        cantidad_producida: 150,
+        tiempo_horas: 3,
+        calidad: "buena"
+      }
+    ],
+    documentos: [
+      {
+        tipo: "cedula",
+        numero: "1123456789",
+        fecha_vencimiento: ISODate("2032-05-01T00:00:00Z")
+      }
+    ],
+    capacitaciones: [
+      {
+        nombre: "Producción en línea",
+        fecha: ISODate("2023-04-15T00:00:00Z"),
+        certificado: true
+      },
+      {
+        nombre: "Seguridad alimentaria",
+        fecha: ISODate("2024-01-20T00:00:00Z"),
+        certificado: true
+      }
+    ]
+  }
+])
