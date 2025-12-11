@@ -1,0 +1,18 @@
+# Uso: Manejo de Sesiones (STRING con TTL)
+# ----------------------------------------
+# 1. Simulación de inicio de sesión: Guardar el token por 1800 segundos.
+SETEX sesion:user:404 1800 "token_valido_abcd"
+
+# 2. Verificar la vida restante del token.
+TTL sesion:user:404
+
+# 3. Recuperar el token.
+GET sesion:user:404
+
+# Uso: Contador de Visitas
+# -------------------------
+# 4. Incrementar el contador de un producto.
+INCR visitas:pan_masa_madre
+
+# 5. Obtener el valor actual.
+GET visitas:pan_masa_madre
