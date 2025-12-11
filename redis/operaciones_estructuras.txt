@@ -1,0 +1,26 @@
+# Uso: Carrito de Compras (HASH)
+# ----------------------------------------
+# 1. Agregar 5 unidades de pan integral al carrito del usuario 101.
+HSET carrito:user:101 pan_trigo_integral 5
+
+# 2. Agregar 10 donas de vainilla.
+HSET carrito:user:101 donas_vainilla 10
+
+# 3. Obtener el carrito completo (para el checkout SQL).
+HGETALL carrito:user:101
+
+# Uso: Cola de Pedidos (LIST)
+# -----------------------------
+# 4. Añadir pedidos a la cola de producción (FIFO).
+RPUSH cola:produccion_dia PED-2025-001 PED-2025-002
+
+# 5. El panadero toma el primer pedido a preparar.
+LPOP cola:produccion_dia
+
+# Uso: Ranking de Más Vendidos (ZSET)
+# -----------------------------------
+# 6. Actualizar las ventas de forma atómica (se vendieron 5 unidades de pan).
+ZINCRBY top_vendidos 5 pan_trigo_integral
+
+# 7. Consultar el ranking completo, de mayor a menor (REV) con los scores.
+ZRANGE top_vendidos 0 -1 REV WITHSCORES
